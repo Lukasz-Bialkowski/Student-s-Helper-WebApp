@@ -31,6 +31,43 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: appConfig,
 
+    includeSource: {
+      options: {
+        basePath: 'app',
+        baseUrl: '',
+        templates: {
+          html: {
+            js: '<script src="{filePath}"></script>',
+            css: '<link rel="stylesheet" type="text/css" href="{filePath}" />',
+          },
+          haml: {
+            js: '%script{src: "{filePath}"}/',
+            css: '%link{href: "{filePath}", rel: "stylesheet"}/'
+          },
+          jade: {
+            js: 'script(src="{filePath}", type="text/javascript")',
+            css: 'link(href="{filePath}", rel="stylesheet", type="text/css")'
+          },
+          scss: {
+            scss: '@import "{filePath}";',
+            css: '@import "{filePath}";',
+          },
+          less: {
+            less: '@import "{filePath}";',
+            css: '@import "{filePath}";',
+          },
+          ts: {
+            ts: '/// <reference path="{filePath}" />'
+          }
+        }
+      },
+      myTarget: {
+        files: {
+          '<%= yeoman.app %>/index.html' : '<%= yeoman.app %>/index.html'
+        }
+      }
+    },
+
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       bower: {
@@ -220,7 +257,7 @@ module.exports = function (grunt) {
             }
           }
       }
-    }, 
+    },
 
     // Renames files for browser caching purposes
     filerev: {
@@ -458,6 +495,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'includeSource',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',

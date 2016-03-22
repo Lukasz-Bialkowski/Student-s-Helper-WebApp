@@ -168,3 +168,5 @@ local.properties
 .idea/
 *.iml
 /target
+/app/bower_components/
+
