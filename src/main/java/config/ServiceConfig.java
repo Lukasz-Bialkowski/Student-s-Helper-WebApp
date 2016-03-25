@@ -1,7 +1,11 @@
 package config;
 
-/**
- * Created by luke on 22.03.16.
- */
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "services")
 public class ServiceConfig {
+
+
 }
