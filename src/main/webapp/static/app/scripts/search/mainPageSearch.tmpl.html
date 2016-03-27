@@ -1,0 +1,17 @@
+<link rel="stylesheet" type="text/css" href="scripts/search/search.css">
+<div class="searchBackgroundExpanded searchBackground container-fluid " ng-controller="SearchController as searchController">
+  <div class="row">
+    <div class="col-md-4">
+      <img src="images/Logo.png" class="img-responsive">
+    </div>
+  </div>
+  <div class="row col-md-6 col-md-offset-3" style="margin-top: 15%">
+    <form role="form">
+      <div  class="form-group has-feedback center-block" >
+        <input type="text" class="form-control input-lg searchboxInput" placeholder="Wyszukaj prowądzacego..." ng-model="searchText"
+        bs-options="lecturer for lecturer in lecturers" bs-typeahead />
+        <i class="form-control-feedback glyphicon glyphicon-search searchIcon"></i>
+      </div>
+    </form>
+  </div>
+</div>

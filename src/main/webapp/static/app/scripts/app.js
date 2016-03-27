@@ -9,9 +9,10 @@
  * Main module of the application.
  */
 angular
-  .module('appApp', [
+  .module('mainApp', [
     'ngResource',
-    'ngRoute'
+    'ngRoute',
+    'app.module.SearchController'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -33,4 +34,4 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
