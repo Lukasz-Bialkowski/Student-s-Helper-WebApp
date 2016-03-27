@@ -26,6 +26,11 @@
   font-size: 24px;
 }
 
+.dropdown-menu li a {
+  white-space: normal;
+  word-wrap: normal;
+}
+
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   background-color: rgba(0,60,127,0.44);

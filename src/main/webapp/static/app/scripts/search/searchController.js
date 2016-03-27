@@ -10,6 +10,7 @@ angular.module('app.module.SearchController',['mgcrea.ngStrap.typeahead'])
   .directive('mainpageSearch',function () {
     return {
       restrict: 'E',
+      replace : true,
       templateUrl: "scripts/search/mainPageSearch.tmpl.html",
       controller: "SearchController"
     }
