@@ -6,10 +6,25 @@
   height:100%;
 }
 
-.searchboxBorderRadius {
-  height: 60px;
-  padding: 10px 16px;
-  font-size: 20px;
-  line-height: 1.6666;
-  border-radius: 15px;
+.searchboxInput {
+  border-radius: 10px;
+  font-size: 24px;
+  height: 45pt;
+}
+
+.searchIcon {
+  margin-top: 3pt;
+  font-size: 24px;
+
+}
+
+.dropdown-menu {
+  width: 100%;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: rgba(0,60,127,0.44);
 }
