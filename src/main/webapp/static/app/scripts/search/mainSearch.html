@@ -2,6 +2,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="search.css">
   <link rel="stylesheet" type="text/css" href="../../bower_components/bootstrap/dist/css/bootstrap.css">
+  <script src="../../bower_components/angular-strap/dist/angular-strap.min.js"></script>
+  <script src="../../bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+  <script src="../../bower_components/angular/angular.min.js"></script>
 </head>
 <div class="searchBackgroundExpanded searchBackground container-fluid ">
   <div class="row">
@@ -9,21 +12,13 @@
       <img src="../../images/Logo.png" class="img-responsive">
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
-      <div id="imaginary_container">
-        <form>
-          <div class="input-group stylish-input-group" style="margin-top: 25%">
-            <input type="text" class="form-control"  placeholder="Search" >
-                    <span class="input-group-addon">
-                        <button type="submit">
-                          <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </span>
-          </div>
-        </form>
+  <div class="row col-md-6 col-md-offset-3" style="margin-top: 15%">
+    <form role="form">
+      <div class="form-group has-feedback center-block" >
+        <input type="text" class="form-control input-lg" placeholder="Wyszukaj prowadzacego..." />
+        <i class="form-control-feedback glyphicon glyphicon-search"></i>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 
