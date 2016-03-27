@@ -3,9 +3,14 @@
  */
 angular.module('app.module.SearchController',['mgcrea.ngStrap.typeahead'])
   .controller('SearchController',['$scope', function ($scope) {
-    $scope.lecturers = ["Dr inz. Krzysztof Brzostowski ", "Dr inz Krzysztof Chudzik",
-                        "Dr inz. Krzysztof Juszczyszyn", "Dr inz Krzysztof Wasko"];
+    $scope.lecturers = ["Dr inż. Krzysztof Brzostowski ", "Dr inż. Krzysztof Chudzik",
+      "Dr inż. Krzysztof Juszczyszyn", "Dr inż. Krzysztof Waśko"];
     $scope.searchText = "";
-
-
-}]);
+  }])
+  .directive('mainpageSearch',function () {
+    return {
+      restrict: 'E',
+      templateUrl: "scripts/search/mainPageSearch.tmpl.html",
+      controller: "SearchController"
+    }
+  });
