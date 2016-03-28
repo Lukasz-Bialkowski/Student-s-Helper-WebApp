@@ -14,10 +14,16 @@
   height: 45pt;
 }
 
+.searchBoxInputNavbar {
+  border-radius: 12px;
+  font-size: 16px;
+  height: 32pt;
+  margin-top: 55px;
+}
+
 .searchIcon {
   margin-top: 3pt;
   font-size: 24px;
-
 }
 
 .dropdown-menu {
@@ -35,3 +41,20 @@
 .dropdown-menu > li > a:focus {
   background-color: rgba(0,60,127,0.44);
 }
+
+.collapseIcon {
+  font-size: 32px;
+  color: white;
+  margin-top:45px;
+}
+
+@media  screen and (max-device-width: 767px){
+  .allowOverflowDiv {
+    overflow: auto;
+  }
+  .dropdown-menu {
+    position: relative;
+  }
+
+}
+
