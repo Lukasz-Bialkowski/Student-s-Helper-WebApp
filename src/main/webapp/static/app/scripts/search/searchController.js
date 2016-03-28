@@ -3,10 +3,22 @@
  */
 angular.module('app.module.SearchController',['mgcrea.ngStrap.typeahead'])
   .controller('SearchController',['$scope', function ($scope) {
-    console.info("fire");
+
+    var searchCtrl = this;
     $scope.lecturers = ["Dr inż. Krzysztof Brzostowski ", "Dr inż. Krzysztof Chudzik",
       "Dr inż. Krzysztof Juszczyszyn", "Dr inż. Krzysztof Waśko"];
     $scope.searchText = "";
+
+    searchCtrl.didPerformFirstSearch = false;
+
+    searchCtrl.performSearch = function () {
+      if($scope.lecturers.indexOf($scope.searchText) != -1) {
+        searchCtrl.didPerformFirstSearch = true;
+      } else {
+        console.info("errror")
+      }
+    }
+    
   }])
   .directive('mainpageSearch',function () {
     return {

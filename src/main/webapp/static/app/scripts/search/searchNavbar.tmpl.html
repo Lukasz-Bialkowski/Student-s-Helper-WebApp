@@ -1,4 +1,4 @@
-<div class="navbar searchBackground" role="navigation" ng-controller="SearchController as searchController" style="z-index: 1">
+<div class="navbar searchBackground" role="navigation" ng-controller="SearchController as searchController" ng-show="searchController.didPerformFirstSearch">
   <link rel="stylesheet" type="text/css" href="scripts/search/search.css">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -9,7 +9,7 @@
   </div>
   <div class="collapse navbar-collapse navbar-ex1-collapse allowOverflowDiv">
     <div class="col-sm-6 col-md-6 navbar-right">
-      <form role="form">
+      <form role="form" ng-submit="searchController.performSearch()">
         <div class="form-group has-feedback" >
           <input type="text" class="form-control input-lg searchBoxInputNavbar"
                  placeholder="Wyszukaj prowądzacego..." ng-model="searchText"
