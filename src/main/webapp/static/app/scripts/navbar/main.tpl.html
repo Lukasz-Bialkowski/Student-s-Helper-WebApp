@@ -1,5 +1,5 @@
 <div class="navbar searchBackground" role="navigation" >
-  <link rel="stylesheet" type="text/css" href="scripts/search/search.css">
+<!--ng-show="navbarCtrl.didPerformFirstSearch"-->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
       <span class="sr-only">Toggle navigation</span>
@@ -12,11 +12,17 @@
       <form role="form" ng-submit="performSearch()">
         <div class="form-group has-feedback" >
           <input type="text" class="form-control input-lg searchBoxInputNavbar"
-                 placeholder="Wyszukaj prowądzacego..." ng-model="searchText"
+                 placeholder="Wyszukaj prowadzacego..." ng-model="searchText"
                  bs-options="lecturer for lecturer in lecturersNames" bs-typeahead />
           <i class="form-control-feedback glyphicon glyphicon-search "></i>
         </div>
       </form>
     </div>
   </div>
+  <div>
+    <h2 style="color:white;" >{{searchText}}</h2>
+    <a ui-sref=".calendar" class="btn btn-primary">Kalendarz</a>
+    <a ui-sref=".contact" class="btn btn-danger">Kontakt</a>
+  </div>
 </div>
+<div ui-view></div>

@@ -1,8 +1,10 @@
 package services.impl;
 
 import entity.*;
+import entity.Building.Building;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import repository.BuildingsRepository;
 import repository.CoursesRepository;
 import repository.LecturersRepository;
 import repository.RemedialClassesRepository;
@@ -23,9 +25,11 @@ public class CSVParser implements ICSVParser {
     LecturersRepository lecturersRepository;
     @Autowired
     RemedialClassesRepository remedialClassesRepository;
+    @Autowired
+    BuildingsRepository buildingsRepository;
 
     @Override
-    public boolean parseAndSave() {
+    public boolean coursesParseAndSave() {
 
         String FILE_PATH = "data.csv";
 
@@ -112,6 +116,55 @@ public class CSVParser implements ICSVParser {
         }
 
         System.out.println("Done");
+        return true;
+    }
+
+    @Override
+    public boolean buildingsParseAndSave() {
+        String FILE_PATH = "buildings.csv";
+
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        Building building;
+
+        try {
+
+            br = new BufferedReader(new FileReader(FILE_PATH));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] entry = line.split(cvsSplitBy);
+                building = new Building();
+
+                System.out.println("Building [Nazwa= " + entry[0]
+                        + " , Szerokosc=" + entry[1] +
+                        " , Dlugosc=" + entry[2]);
+
+                building.setName(entry[0]);
+                building.setWidth(entry[1]);
+                building.setLength(entry[2]);
+                buildingsRepository.save(building);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        System.out.println("Done");
+
         return true;
     }
 

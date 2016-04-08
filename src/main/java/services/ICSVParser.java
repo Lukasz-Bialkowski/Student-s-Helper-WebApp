@@ -2,6 +2,7 @@ package services;
 
 public interface ICSVParser {
 
-    public boolean parseAndSave();
+    boolean buildingsParseAndSave();
 
+    boolean coursesParseAndSave();
 }

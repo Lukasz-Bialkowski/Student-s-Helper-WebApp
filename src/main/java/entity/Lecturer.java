@@ -80,4 +80,23 @@ public class Lecturer {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Lecturer lecturer = (Lecturer) o;
+
+        if (!name.equals(lecturer.name)) return false;
+        return surname.equals(lecturer.surname);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + surname.hashCode();
+        return result;
+    }
 }
