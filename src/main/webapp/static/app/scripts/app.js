@@ -184,6 +184,7 @@
 // COURSES
 
    var calendarCtrl = this;
+   calendarCtrl.backupOfCourses = [];
 
    $scope.getAllCourses = function() {
        if($scope.courses.length==0){coursesSearchSrv.getAllCourses({}, function(response){$scope.courses = response;})}
@@ -192,6 +193,7 @@
    $scope.getAllCoursesForLecturer = function(lecturerid){
        coursesSearchSrv.coursesForLecturer({courseId : lecturerid}, function(response){
          $scope.courses = response;
+         calendarCtrl.backupOfCourses = response;
          calendarCtrl.getTypesOfCourses();
        })
    };
@@ -215,7 +217,29 @@
          calendarCtrl.types.push(course.type);
        }
      }
-   }
+   };
+
+   calendarCtrl.changeStateOfType = function(type) {
+     var index = calendarCtrl.types.indexOf(type);
+     if( index != -1) {
+       calendarCtrl.types.splice(index,1);
+     }else {
+       calendarCtrl.types.push(type);
+     }
+     calendarCtrl.changeScopeOfLecturers();
+   };
+
+   calendarCtrl.changeScopeOfLecturers = function(){
+     var tempArray = [];
+     for (var i = 0; i < calendarCtrl.types.length; i++) {
+       for(var j = 0; j < calendarCtrl.backupOfCourses.length ; j++) {
+         if (calendarCtrl.backupOfCourses[j].type == calendarCtrl.types[i]) {
+           tempArray.push(calendarCtrl.backupOfCourses[j]);
+         }
+       }
+     }
+     $scope.courses = tempArray;
+   };
 
 // BUILDINGS
 
