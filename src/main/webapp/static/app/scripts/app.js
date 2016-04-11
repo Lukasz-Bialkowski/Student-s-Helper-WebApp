@@ -183,13 +183,16 @@
 
 // COURSES
 
+   var calendarCtrl = this;
+
    $scope.getAllCourses = function() {
        if($scope.courses.length==0){coursesSearchSrv.getAllCourses({}, function(response){$scope.courses = response;})}
    };
 
    $scope.getAllCoursesForLecturer = function(lecturerid){
        coursesSearchSrv.coursesForLecturer({courseId : lecturerid}, function(response){
-           $scope.courses = response;
+         $scope.courses = response;
+         calendarCtrl.getTypesOfCourses();
        })
    };
 
@@ -201,6 +204,18 @@
            $scope.currentCourse = response;
        })
    };
+
+   //FILTER
+   calendarCtrl.types = [];
+
+   calendarCtrl.getTypesOfCourses = function(){
+     for(var i = 0; i < $scope.courses.length; i++){
+       var course = $scope.courses[i];
+       if(calendarCtrl.types.indexOf(course.type) == -1) {
+         calendarCtrl.types.push(course.type);
+       }
+     }
+   }
 
 // BUILDINGS
 
