@@ -12,8 +12,25 @@ public class Address {
     Long id;
 
     String sala;
-
     String budynek;
+
+    String width;
+    String length;
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
 
     public Long getId() {
         return id;
@@ -45,6 +62,8 @@ public class Address {
                 "id=" + id +
                 ", sala='" + sala + '\'' +
                 ", budynek='" + budynek + '\'' +
+                ", width='" + width + '\'' +
+                ", length='" + length + '\'' +
                 '}';
     }
 }

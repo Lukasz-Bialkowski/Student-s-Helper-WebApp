@@ -1,7 +1,6 @@
 package entity;
 
 import javax.persistence.*;
-import java.time.DayOfWeek;
 
 @Entity
 public class RemedialClass {
@@ -17,8 +16,7 @@ public class RemedialClass {
 
     String endTime;
 
-    @Enumerated(EnumType.STRING)
-    DayOfWeek dayOfWeek;
+    String dayOfWeek;
 
     @OneToOne(cascade = CascadeType.ALL)
     Address address;
@@ -73,11 +71,11 @@ public class RemedialClass {
         this.endTime = endTime;
     }
 
-    public DayOfWeek getDayOfWeek() {
+    public String getDayOfWeek() {
         return dayOfWeek;
     }
 
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+    public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 

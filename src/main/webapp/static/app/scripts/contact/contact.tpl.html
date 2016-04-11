@@ -1,11 +1,14 @@
 <div class="row">
   <div class="col-md-4">
-    <p>This is a text about lecturer.</p>
+    <p><b>Konsultacje</b><br>
+    {{currentRemedialInfo.address.budynek}} pok. {{currentRemedialInfo.address.sala}}<br><br>
+    {{currentRemedialInfo.remedialClass.dayOfWeek}} {{currentRemedialInfo.remedialClass.repManner}} {{currentRemedialInfo.remedialClass.startTime}}-{{currentRemedialInfo.remedialClass.endTime}}</br><br>
+    <b>Informacje</b><br>
+    {{currentLecturer.website}}<br>
+    Tel. {{currentLecturer.telephone}}</p>
   </div>
   <div class="col-md-8">
-    <h2>Map goes in here</h2>
-    <p>Kolejna niespodzianka</p>
-    <p>Dane prowadzacego w $scope.currentLecturer</p>
-    {{currentLecturer}}
+    <div id="map"  style="width:700px;height:380px;"></div>
   </div>
 </div>
+

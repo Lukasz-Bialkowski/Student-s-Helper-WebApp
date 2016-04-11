@@ -69,16 +69,12 @@
      });
      return res;
   }).factory('buildingsSearchSrv', function($resource){
-       var res = $resource('http://localhost:8080/student-helper/buildings/:operation/:buildingId', {}, {
+       var res = $resource('http://localhost:8080/student-helper/buildings/:operation/:lecturerId', {}, {
 
-           getAllBuildings : {
-               method : 'GET',
-               isArray : true
-           },
-           getBuilding : {
+           getRemedialInfo : {
                method : 'GET',
                params : {
-                   operation : 'building'
+                   operation : 'lecturer'
                }
            }
 
@@ -130,21 +126,6 @@
       };
 
 
-
- // BUILDINGS
-
-      $scope.getAllBuildings = function() {
-          coursesSearchSrv.getAllBuildings({}, function(response){
-              $scope.buildings = response;
-          })
-      };
-
-      $scope.getBuildings = function(building) {
-          coursesSearchSrv.getBuilding({buildingId : building.id}, function(response){
-              $scope.currentBuilding = response;
-          })
-      };
-
 }]).controller('NavbarCtrl',['$scope', 'coursesSearchSrv','buildingsSearchSrv','lecturersSearchSrv','$stateParams', function ($scope, coursesSearchSrv, buildingsSearchSrv,lecturersSearchSrv,$stateParams) {
 
        $scope.buildings = [];
@@ -155,6 +136,7 @@
        $scope.didPerformFirstSearch = false;
        $scope.searchIndeks = $stateParams.lecturerindex;
        $scope.currentLecturer = {};
+
 
        $scope.performSearch = function () {
        console.log("performSearch");
@@ -196,19 +178,6 @@
        $scope.getLecturer($scope.searchIndeks);
 
 
-  // BUILDINGS
-
-       $scope.getAllBuildings = function() {
-           coursesSearchSrv.getAllBuildings({}, function(response){
-               $scope.buildings = response;
-           })
-       };
-
-       $scope.getBuildings = function(building) {
-           coursesSearchSrv.getBuilding({buildingId : building.id}, function(response){
-               $scope.currentBuilding = response;
-           })
-       };
 
 }]).controller('CalendarCtrl', function ($scope, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
 
@@ -235,24 +204,37 @@
 
 // BUILDINGS
 
-   $scope.getAllBuildings = function() {
-       coursesSearchSrv.getAllBuildings({}, function(response){
-           $scope.buildings = response;
-       })
-   };
-
-   $scope.getBuildings = function(building) {
-       coursesSearchSrv.getBuilding({buildingId : building.id}, function(response){
-           $scope.currentBuilding = response;
-       })
-   };
-}).controller('ContactCtrl',function ($scope, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
-
+ }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
+   $scope.currentRemedialInfo = {};
+   var lat =0.0;
+   var lng = 0.0;
    $scope.getLecturer = function(lecturerid) {
-       lecturersSearchSrv.getLecturer({lecturerId : lecturerid}, function(response){
-           $scope.currentLecturer = response;
-       })
+     lecturersSearchSrv.getLecturer({lecturerId : lecturerid}, function(response){
+       $scope.currentLecturer = response;
+     })
    };
    $scope.getLecturer($scope.searchIndeks);
 
-});
+   $scope.getRemedialInfo = function(lecturerid){
+     buildingsSearchSrv.getRemedialInfo({lecturerId: lecturerid}, function(response){
+       $scope.currentRemedialInfo = response;
+       lat = parseFloat($scope.currentRemedialInfo.address.width);
+       lng =  parseFloat($scope.currentRemedialInfo.address.length);
+       createMap(lat,lng);
+     })
+   };
+   $scope.getRemedialInfo($scope.searchIndeks);
+   function createMap(lati, lngi){
+     $window.map = new google.maps.Map(document.getElementById('map'), {
+       center: new google.maps.LatLng( lati, lngi),
+       zoom: 16
+     });
+     var marker = new google.maps.Marker({
+       position: new google.maps.LatLng(lati,lngi),
+       map: $window.map,
+       title: 'Map!'
+     });
+   }
+
+
+ });

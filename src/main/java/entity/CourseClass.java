@@ -1,7 +1,6 @@
 package entity;
 
 import javax.persistence.*;
-import java.time.DayOfWeek;
 
 @Entity
 public class CourseClass {
@@ -19,8 +18,7 @@ public class CourseClass {
 
     String endTime;
 
-    @Enumerated(EnumType.STRING)
-    DayOfWeek dayOfWeek;
+    String dayOfWeek;
 
     String repManner;
 
@@ -85,11 +83,11 @@ public class CourseClass {
         this.endTime = endTime;
     }
 
-    public DayOfWeek getDayOfWeek() {
+    public String getDayOfWeek() {
         return dayOfWeek;
     }
 
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+    public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 

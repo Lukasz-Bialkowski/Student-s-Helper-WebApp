@@ -1,7 +1,10 @@
 package services.impl;
 
-import entity.*;
+import entity.Address;
 import entity.Building.Building;
+import entity.CourseClass;
+import entity.Lecturer;
+import entity.RemedialClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.BuildingsRepository;
@@ -14,7 +17,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.DayOfWeek;
 
 @Service
 public class CSVParser implements ICSVParser {
@@ -65,6 +67,126 @@ public class CSVParser implements ICSVParser {
                         " , Typ kursu=" + entry[10] + "]");
 
                 address.setBudynek(entry[8]);
+                switch(address.getBudynek())
+                {
+                    case "D-1":
+                    {
+                        address.setLength("17.058363");
+                        address.setWidth("51.110412");
+                        break;
+                    }
+                    case "D-2":
+                    {
+                        address.setLength("17.056894");
+                        address.setWidth("51.109983");
+                        break;
+                    }
+                    case "C-1":
+                    {
+                        address.setLength("17.060573");
+                        address.setWidth("51.109150");
+                        break;
+                    }
+                    case "C-2":
+                    {
+                        address.setLength("17.060979");
+                        address.setWidth("51.108911");
+                        break;
+                    }
+                    case "C-3":
+                    {
+                        address.setLength("17.059805");
+                        address.setWidth("51.109002");
+                        break;
+                    }
+                    case "C-5":
+                    {
+                        address.setLength("17.058940");
+                        address.setWidth("51.109191");
+                        break;
+                    }
+                    case "C-7":
+                    {
+                        address.setLength("17.058042");
+                        address.setWidth("51.108970");
+                        break;
+                    }
+                    case "C-16":
+                    {
+                        address.setLength("17.059414");
+                        address.setWidth("51.109493");
+                        break;
+                    }
+                    case "C-6":
+                    {
+                        address.setLength("17.060575");
+                        address.setWidth("51.108403");
+                        break;
+                    }
+                    case "C-13":
+                    {
+                        address.setLength("17.059805");
+                        address.setWidth("51.107402");
+                        break;
+                    }
+                    case "A-1":
+                    {
+                        address.setLength("17.062026");
+                        address.setWidth("51.107368");
+                        break;
+                    }
+                    case "B-1":
+                    {
+                        address.setLength("17.064542");
+                        address.setWidth("51.107468");
+                        break;
+                    }
+                    case "A-5":
+                    {
+                        address.setLength("17.062100");
+                        address.setWidth("51.108606");
+                        break;
+                    }
+                    case "A-6":
+                    {
+                        address.setLength("17.061649");
+                        address.setWidth("51.108343");
+                        break;
+                    }
+                    case "B-4":
+                    {
+                        address.setLength("17.065293");
+                        address.setWidth("51.108050");
+                        break;
+                    }
+                    case "B-3":
+                    {
+                        address.setLength("17.065126");
+                        address.setWidth("51.107340");
+                        break;
+                    }
+                    case "A-2":
+                    {
+                        address.setLength("17.063699");
+                        address.setWidth("51.107351");
+                        break;
+                    }
+                    case "A-3":
+                    {
+                        address.setLength("17.063699");
+                        address.setWidth("51.107353");
+                        break;
+                    }
+                    case "D-3":
+                    {
+                        address.setLength("17.065126");
+                        address.setWidth("51.107340");
+                        break;
+                    }
+
+
+
+                }
                 address.setSala(entry[9]);
 
                 lecturer.setName(entry[1]);
@@ -80,7 +202,20 @@ public class CSVParser implements ICSVParser {
                     remedialClass.setLecturer(lecturer);
                     remedialClass.setStartTime(entry[4]);
                     remedialClass.setEndTime(entry[5]);
-                    remedialClass.setRepManner(entry[6]);
+                  //  remedialClass.setRepManner(entry[6]);
+                    switch(entry[6])
+                    {
+                        case "n":
+                        {
+                            remedialClass.setRepManner("TN");
+                            break;
+                        }
+                        case "p":
+                        {
+                            remedialClass.setRepManner("TP");
+                            break;
+                        }
+                    }
                     remedialClassesRepository.save(remedialClass);
 
                 } else {
@@ -92,7 +227,20 @@ public class CSVParser implements ICSVParser {
                     course.setEndTime(entry[5]);
                     course.setName(entry[7]);
                     course.setType(entry[10]);
-                    course.setRepManner(entry[6]);
+                 //   course.setRepManner(entry[6]);
+                    switch(entry[6])
+                    {
+                        case "n":
+                        {
+                            course.setRepManner("TN");
+                            break;
+                        }
+                        case "p":
+                        {
+                            course.setRepManner("TP");
+                            break;
+                        }
+                    }
                     coursesRepository.save(course);
 
                 }
@@ -168,55 +316,36 @@ public class CSVParser implements ICSVParser {
         return true;
     }
 
-    private DayOfWeek parseDayOfWeek(String dayStr) {
+    private String parseDayOfWeek(String dayStr) {
 
-        DayOfWeek day = null;
+        String day = "";
         switch (dayStr) {
             case "pn":
-                day = DayOfWeek.MONDAY;
-                break;
-            case "Poniedziałek":
-                day = DayOfWeek.MONDAY;
+                day = "Poniedziałek";
                 break;
             case "wt":
-                day = DayOfWeek.TUESDAY;
-                break;
-            case "Wtorek":
-                day = DayOfWeek.TUESDAY;
+                day = "Wtorek";
                 break;
             case "sr":
-                day = DayOfWeek.WEDNESDAY;
-                break;
-            case "Środa":
-                day = DayOfWeek.WEDNESDAY;
+                day = "Środa";
                 break;
             case "czw":
-                day = DayOfWeek.THURSDAY;
-                break;
-            case "Czwartek":
-                day = DayOfWeek.THURSDAY;
+                day = "Czwartek";
                 break;
             case "pt":
-                day = DayOfWeek.FRIDAY;
-                break;
-            case "Piątek":
-                day = DayOfWeek.FRIDAY;
+                day = "Piątek";
                 break;
             case "sob":
-                day = DayOfWeek.SATURDAY;
+                day = "Sobota";
                 break;
             case "sb":
-                day = DayOfWeek.SATURDAY;
-                break;
-            case "Sobota":
-                day = DayOfWeek.SATURDAY;
+                day = "Sobota";
                 break;
             case "ndz":
-                day = DayOfWeek.SUNDAY;
+                day = "Niedziela";
                 break;
-            case "Niedziela":
-                day = DayOfWeek.SUNDAY;
-                break;
+            default:
+                day = dayStr;
 
         }
 
