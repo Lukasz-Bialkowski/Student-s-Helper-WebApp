@@ -205,6 +205,8 @@ var startOfWeek = moment().startOf('week').toDate();
 // COURSES
    var calendarCtrl = this;
    calendarCtrl.backupOfCourses = [];
+   calendarCtrl.showForm = false;
+   $scope.countCourses = 0;
 
    $scope.getAllCourses = function() {
        if($scope.courses.length==0){coursesSearchSrv.getAllCourses({}, function(response){$scope.courses = response;})}
@@ -213,9 +215,10 @@ var startOfWeek = moment().startOf('week').toDate();
    $scope.getAllCoursesForLecturer = function(lecturerid){
        coursesSearchSrv.coursesForLecturer({courseId : lecturerid}, function(response){
           $scope.courses = response;
-         $scope.courses = response;
          calendarCtrl.backupOfCourses = response;
          calendarCtrl.getTypesOfCourses();
+         calendarCtrl.showForm = true;
+         $scope.countCourses = $scope.courses.length;
        })
    };
 
@@ -229,12 +232,14 @@ var startOfWeek = moment().startOf('week').toDate();
 
    //FILTER
    calendarCtrl.types = [];
+   calendarCtrl.avalaibleTypes = [];
 
    calendarCtrl.getTypesOfCourses = function(){
      for(var i = 0; i < $scope.courses.length; i++){
        var course = $scope.courses[i];
-       if(calendarCtrl.types.indexOf(course.type) == -1) {
-         calendarCtrl.types.push(course.type);
+       if(calendarCtrl.types.indexOf(course.type.toLowerCase()) == -1) {
+         calendarCtrl.types.push(course.type.toLowerCase());
+         calendarCtrl.avalaibleTypes.push(course.type.toLowerCase());
        }
      }
    };
@@ -253,12 +258,17 @@ var startOfWeek = moment().startOf('week').toDate();
      var tempArray = [];
      for (var i = 0; i < calendarCtrl.types.length; i++) {
        for(var j = 0; j < calendarCtrl.backupOfCourses.length ; j++) {
-         if (calendarCtrl.backupOfCourses[j].type == calendarCtrl.types[i]) {
+         if (calendarCtrl.backupOfCourses[j].type.toLowerCase() == calendarCtrl.types[i]) {
            tempArray.push(calendarCtrl.backupOfCourses[j]);
          }
        }
      }
      $scope.courses = tempArray;
+     $scope.countCourses = $scope.courses.length;
+   };
+
+   calendarCtrl.shouldShowCheckbox = function(value) {
+     return calendarCtrl.avalaibleTypes.indexOf(value) != -1;
    };
 
 // BUILDINGS

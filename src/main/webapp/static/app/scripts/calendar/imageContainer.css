@@ -1,0 +1,13 @@
+img.resize {
+  width: 30px;
+  height: 20px;
+}
+
+.checkboxSize {
+  width: 20px;
+  height: 20px;
+}
+
+input[type=checkbox]:not(:checked){
+  opacity:0.4;
+}
