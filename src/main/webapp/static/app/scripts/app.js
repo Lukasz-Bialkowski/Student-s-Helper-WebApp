@@ -77,7 +77,6 @@
                    operation : 'lecturer'
                }
            }
-
        });
        return res;
    }).controller('MainSearchCtrl',['$scope', 'coursesSearchSrv','buildingsSearchSrv','lecturersSearchSrv','$stateParams','$state', function ($scope, coursesSearchSrv, buildingsSearchSrv,lecturersSearchSrv,$stateParams,$state) {
@@ -101,7 +100,7 @@
         } else {
           console.info("errror")
         }
-      }
+      };
 
  // LECTURER
 
@@ -149,7 +148,7 @@
          } else {
            console.info("errror")
          }
-       }
+       };
 
   // LECTURER
 
@@ -177,19 +176,11 @@
 
        $scope.getLecturer($scope.searchIndeks);
 
-
-
 }]).controller('CalendarCtrl', function ($scope, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
 var startOfWeek = moment().startOf('week').toDate();
    //var d = firstday.getDate();
    var d = startOfWeek.getDate()+1;
    var e = startOfWeek.getDate()+6;
-
-
-
-
-
-
 
    var events = [
 
@@ -216,8 +207,6 @@ var startOfWeek = moment().startOf('week').toDate();
        if($scope.courses.length==0){coursesSearchSrv.getAllCourses({}, function(response){$scope.courses = response;})}
    };
 
-;
-
    $scope.getAllCoursesForLecturer = function(lecturerid){
        coursesSearchSrv.coursesForLecturer({courseId : lecturerid}, function(response){
           $scope.courses = response;
@@ -232,14 +221,13 @@ var startOfWeek = moment().startOf('week').toDate();
        })
    };
 
-
-<<<<<<< HEAD
 // BUILDINGS
    $scope.getAllBuildings = function() {
        coursesSearchSrv.getAllBuildings({}, function(response){
            $scope.buildings = response;
        })
-=======
+   };
+
  }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
    $scope.currentRemedialInfo = {};
    var lat =0.0;
@@ -248,7 +236,7 @@ var startOfWeek = moment().startOf('week').toDate();
      lecturersSearchSrv.getLecturer({lecturerId : lecturerid}, function(response){
        $scope.currentLecturer = response;
      })
->>>>>>> 38961fe7f96150331a9e94248bde18c1dcade9ba
+
    };
    $scope.getLecturer($scope.searchIndeks);
 
@@ -260,11 +248,6 @@ var startOfWeek = moment().startOf('week').toDate();
        createMap(lat,lng);
      })
    };
-<<<<<<< HEAD
-
-
-
-
 
    $scope.eventSources = [events];
    $scope.calOptions = {
@@ -288,11 +271,6 @@ var startOfWeek = moment().startOf('week').toDate();
    function addDays(theDate, days) {
      return new Date(theDate.getTime() + days*24*60*60*1000);
    }
-
-
-
-
-
 
 
  }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
@@ -326,6 +304,5 @@ var startOfWeek = moment().startOf('week').toDate();
        title: 'Map!'
      });
    }
-
 
  });
