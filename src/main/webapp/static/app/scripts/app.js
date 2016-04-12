@@ -380,10 +380,6 @@ var startOfWeek = moment().startOf('week').toDate();
          },300);
          },
        controllerAs: 'mapCtrl'
-     }).then(function (value) {
-       console.log(value);
-     },function(reject){
-       console.log(reject);
      });
    }
 
