@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the appApp
  */
- angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','ui.calendar'])
+ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','ui.calendar','ngDialog'])
   .config(function($stateProvider, $urlRouterProvider) {
 
       $urlRouterProvider.otherwise('/mainsearch');
@@ -176,7 +176,7 @@
 
        $scope.getLecturer($scope.searchIndeks);
 
-}]).controller('CalendarCtrl', function ($scope, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
+}]).controller('CalendarCtrl', function ($scope, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv, ngDialog) {
 var startOfWeek = moment().startOf('week').toDate();
    //var d = firstday.getDate();
    var d = startOfWeek.getDate()+1;
@@ -221,8 +221,6 @@ var startOfWeek = moment().startOf('week').toDate();
        }
      }
    }
-
-
 
    var events = [
 
@@ -269,7 +267,7 @@ var startOfWeek = moment().startOf('week').toDate();
          var d = startOfWeek.getDate();
          var m = new Date().getMonth();
 
-         for(var i = 0; i < countCourses; i++){
+         for(var i = 0; i < $scope.countCourses; i++){
            c = new Object({"title":$scope.courses[i].name+"<br> "+$scope.courses[i].lecturer.title+" "+$scope.courses[i].lecturer.name+" "+$scope.courses[i].lecturer.surname+"<br> "+$scope.courses[i].address.budynek+" "+$scope.courses[i].address.sala, "start":new Date(2016, m, (parseInt(d)+parseInt($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].startTime, 0), returnHourOrMinute($scope.courses[i].startTime, 1)),
            "end":new Date(2016, m, (parseInt(d)+parseInt($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].endTime, 0), returnHourOrMinute($scope.courses[i].endTime, 1)),
            "color":getColor($scope.courses[i].type),"_id":i});
@@ -279,9 +277,6 @@ var startOfWeek = moment().startOf('week').toDate();
          $scope.result = [[c]];
        })
    };
-
-
-
 
    $scope.getAllCoursesForLecturer($scope.searchIndeks);
 
@@ -355,6 +350,42 @@ var startOfWeek = moment().startOf('week').toDate();
      height: 725
    };
 
+   //POPOVER
+
+   $scope.openPopover = function(courseName, building ,lat, lng) {
+     ngDialog.open({
+       template:'popoverTemplate',
+       data: [courseName,building,lat,lng],
+       className:'ngdialog-theme-default',
+       controller: function ($scope,$window, $timeout) {
+
+         $scope.popCourseName = $scope.ngDialogData[0];
+         $scope.popBuilding = $scope.ngDialogData[1];
+
+         function initMap(){
+           $window.map = new google.maps.Map(document.getElementById('mapPop'), {
+             center: new google.maps.LatLng( $scope.ngDialogData[2], $scope.ngDialogData[3]),
+             zoom: 16
+           });
+           var marker = new google.maps.Marker({
+             position: new google.maps.LatLng($scope.ngDialogData[2],$scope.ngDialogData[3]),
+             map: $window.map,
+             title: 'Map!'
+           })
+         }
+         $timeout(function () {
+           initMap();
+         },300);
+         },
+       controllerAs: 'mapCtrl'
+     }).then(function (value) {
+       console.log(value);
+     },function(reject){
+       console.log(reject);
+     });
+   }
+
+
  }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
    $scope.currentRemedialInfo = {};
    var lat =0.0;
@@ -407,5 +438,4 @@ var startOfWeek = moment().startOf('week').toDate();
        title: 'Map!'
      });
    }
-
  });
