@@ -67,7 +67,7 @@ public class CourseController {
         List<CourseClass> result = new ArrayList<>();
         List<CourseClass> courses = coursesRepository.findAll();
         for (CourseClass c : courses) {
-            if (c.getLecturer().getName().equals(lecturer.getName())|| c.getLecturer().getSurname().equals(lecturer.getSurname())) {
+            if (c.getLecturer().getName().equals(lecturer.getName()) && c.getLecturer().getSurname().equals(lecturer.getSurname())) {
                 result.add(c);
             }
         }

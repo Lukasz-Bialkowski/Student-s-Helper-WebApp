@@ -182,6 +182,48 @@ var startOfWeek = moment().startOf('week').toDate();
    var d = startOfWeek.getDate()+1;
    var e = startOfWeek.getDate()+6;
 
+
+   function returnHourOrMinute(time, i){
+     var v = time.split(":");
+     if(v.length > 1)
+      return v[i];
+     else
+       var v = time.split(".");
+     return v[i];
+   }
+
+   function getColor(c){
+     switch(c){
+       case "L","l":
+       {
+         return "green";
+         break;
+       }
+       case "W","w":
+       {
+         return "orange";
+         break;
+       }
+       case "P","p":
+       {
+         return "red";
+         break;
+       }
+       case "C","c":
+       {
+         return "blue";
+         break;
+       }
+       case "S","s":
+       {
+         return "purple";
+         break;
+       }
+     }
+   }
+
+
+
    var events = [
 
      { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> D-1 312a', start: new Date(2016, 3, d, 13, 15), end: new Date(2016, 3, d, 15, 0), color: 'blue' },
@@ -212,15 +254,34 @@ var startOfWeek = moment().startOf('week').toDate();
        if($scope.courses.length==0){coursesSearchSrv.getAllCourses({}, function(response){$scope.courses = response;})}
    };
 
+   var c;
    $scope.getAllCoursesForLecturer = function(lecturerid){
        coursesSearchSrv.coursesForLecturer({courseId : lecturerid}, function(response){
+
           $scope.courses = response;
          calendarCtrl.backupOfCourses = response;
          calendarCtrl.getTypesOfCourses();
          calendarCtrl.showForm = true;
          $scope.countCourses = $scope.courses.length;
+
+         var startOfWeek = moment().startOf('week').toDate();
+         //var d = firstday.getDate();
+         var d = startOfWeek.getDate();
+         var m = new Date().getMonth();
+
+         for(var i = 0; i < countCourses; i++){
+           c = new Object({"title":$scope.courses[i].name+"<br> "+$scope.courses[i].lecturer.title+" "+$scope.courses[i].lecturer.name+" "+$scope.courses[i].lecturer.surname+"<br> "+$scope.courses[i].address.budynek+" "+$scope.courses[i].address.sala, "start":new Date(2016, m, (parseInt(d)+parseInt($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].startTime, 0), returnHourOrMinute($scope.courses[i].startTime, 1)),
+           "end":new Date(2016, m, (parseInt(d)+parseInt($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].endTime, 0), returnHourOrMinute($scope.courses[i].endTime, 1)),
+           "color":getColor($scope.courses[i].type),"_id":i});
+          }
+         console.log(events);
+         console.log([c]);
+         $scope.result = [[c]];
        })
    };
+
+
+
 
    $scope.getAllCoursesForLecturer($scope.searchIndeks);
 
@@ -278,6 +339,22 @@ var startOfWeek = moment().startOf('week').toDate();
        })
    };
 
+   $scope.calOptions = {
+     header: {
+       left: 'null',
+       center: "Kalendarzyk",
+       right: 'null'
+     },
+     defaultView: 'agendaWeek',
+     slotDuration: '00:30:00',
+     minTime: '07:00:00',
+     maxTime: '21:00:00',
+     firstDay: 1,
+     allDay: false,
+     lang: 'pl',
+     height: 725
+   };
+
  }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
    $scope.currentRemedialInfo = {};
    var lat =0.0;
@@ -298,30 +375,6 @@ var startOfWeek = moment().startOf('week').toDate();
        createMap(lat,lng);
      })
    };
-
-   $scope.eventSources = [events];
-   $scope.calOptions = {
-     header: {
-       left: 'null',
-       center: "Kalendarzyk",
-       right: 'null'
-     },
-     defaultView: 'agendaWeek',
-     slotDuration: '00:30:00',
-     minTime: '07:00:00',
-     maxTime: '21:00:00',
-     firstDay: 1,
-     allDay: false,
-     lang: 'pl',
-     height: 675,
-     aspectRatio: 1
-   };
-
-
-   function addDays(theDate, days) {
-     return new Date(theDate.getTime() + days*24*60*60*1000);
-   }
-
 
  }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
    $scope.currentRemedialInfo = {};
