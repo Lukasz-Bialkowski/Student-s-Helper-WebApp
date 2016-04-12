@@ -11,3 +11,8 @@ img.resize {
 input[type=checkbox]:not(:checked){
   opacity:0.4;
 }
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  width: 800px;
+  height: 550px;
+}
