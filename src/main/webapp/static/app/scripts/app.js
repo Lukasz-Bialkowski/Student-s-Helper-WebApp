@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the appApp
  */
- angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead'])
+ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','ui.calendar'])
   .config(function($stateProvider, $urlRouterProvider) {
 
       $urlRouterProvider.otherwise('/mainsearch');
@@ -180,21 +180,51 @@
 
 
 }]).controller('CalendarCtrl', function ($scope, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
+var startOfWeek = moment().startOf('week').toDate();
+   //var d = firstday.getDate();
+   var d = startOfWeek.getDate()+1;
+   var e = startOfWeek.getDate()+6;
+
+
+
+
+
+
+
+   var events = [
+
+     { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> D-1 312a', start: new Date(2016, 3, d, 13, 15), end: new Date(2016, 3, d, 15, 0), color: 'blue' },
+     { title: 'Wstęp do programowania <br> dr inż. Krzysztof Brzostowski <br> B-4 409a', start: new Date(2016, 3, d, 15, 15), end: new Date(2016, 3, d, 16, 55), color: 'orange' },
+     { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d, 17, 5), end: new Date(2016, 3, d, 18, 55), color: 'blue' },
+
+     { title: 'Zespołowe przedsięwzięcie inżynierskie <br> dr inż. Krzysztof Brzostowski <br> B-1 408', start: new Date(2016, 3, d + 2, 7, 30), end: new Date(2016, 3, d + 2, 11, 0), color: 'red' },
+     { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> C-13 0.32', start: new Date(2016, 3, d + 2, 11, 15), end: new Date(2016, 3, d + 2, 13, 0), color: 'blue' },
+     { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> D-1 311c', start: new Date(2016, 3, d + 2, 13, 15), end: new Date(2016, 3, d + 2, 15, 0), color: 'blue' },
+
+     { title: 'Identyfikacja systemów <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d + 3, 9, 15), end: new Date(2016, 3, d + 3, 11, 0), color: 'green' },
+     { title: 'Identyfikacja systemów <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d + 3, 11, 15), end: new Date(2016, 3, d + 3, 13, 0), color: 'green' },
+     { title: 'Wstęp do programowania <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d + 3, 13, 15), end: new Date(2016, 3, d + 3, 15, 0), color: 'green' },
+     { title: 'Wstęp do programowania <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d + 3, 15, 15), end: new Date(2016, 3, d + 3, 16, 55), color: 'green' },
+
+     { title: 'Identyfikacja systemów <br> dr inż. Krzysztof Brzostowski <br> D-2 333b', start: new Date(2016, 3, d + 4, 11,15), end: new Date(2016, 3, d + 4, 13, 0), color: 'green' },
+     { title: 'Identyfikacja systemów <br> dr inż. Krzysztof Brzostowski <br> D-2 127c', start: new Date(2016, 3, d + 4, 13, 15), end: new Date(2016, 3, d + 4, 15, 0), color: 'green' }
+  ];
+
 
 // COURSES
-
    $scope.getAllCourses = function() {
        if($scope.courses.length==0){coursesSearchSrv.getAllCourses({}, function(response){$scope.courses = response;})}
    };
 
+;
+
    $scope.getAllCoursesForLecturer = function(lecturerid){
        coursesSearchSrv.coursesForLecturer({courseId : lecturerid}, function(response){
-           $scope.courses = response;
+          $scope.courses = response;
        })
    };
 
    $scope.getAllCoursesForLecturer($scope.searchIndeks);
-
 
    $scope.getCourse = function(course) {
        coursesSearchSrv.getCourse({courseId : course.id}, function(response){
@@ -202,7 +232,68 @@
        })
    };
 
+
+<<<<<<< HEAD
 // BUILDINGS
+   $scope.getAllBuildings = function() {
+       coursesSearchSrv.getAllBuildings({}, function(response){
+           $scope.buildings = response;
+       })
+=======
+ }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
+   $scope.currentRemedialInfo = {};
+   var lat =0.0;
+   var lng = 0.0;
+   $scope.getLecturer = function(lecturerid) {
+     lecturersSearchSrv.getLecturer({lecturerId : lecturerid}, function(response){
+       $scope.currentLecturer = response;
+     })
+>>>>>>> 38961fe7f96150331a9e94248bde18c1dcade9ba
+   };
+   $scope.getLecturer($scope.searchIndeks);
+
+   $scope.getRemedialInfo = function(lecturerid){
+     buildingsSearchSrv.getRemedialInfo({lecturerId: lecturerid}, function(response){
+       $scope.currentRemedialInfo = response;
+       lat = parseFloat($scope.currentRemedialInfo.address.width);
+       lng =  parseFloat($scope.currentRemedialInfo.address.length);
+       createMap(lat,lng);
+     })
+   };
+<<<<<<< HEAD
+
+
+
+
+
+   $scope.eventSources = [events];
+   $scope.calOptions = {
+     header: {
+       left: 'null',
+       center: "Kalendarzyk",
+       right: 'null'
+     },
+     defaultView: 'agendaWeek',
+     slotDuration: '00:30:00',
+     minTime: '07:00:00',
+     maxTime: '21:00:00',
+     firstDay: 1,
+     allDay: false,
+     lang: 'pl',
+     height: 675,
+     aspectRatio: 1
+   };
+
+
+   function addDays(theDate, days) {
+     return new Date(theDate.getTime() + days*24*60*60*1000);
+   }
+
+
+
+
+
+
 
  }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
    $scope.currentRemedialInfo = {};

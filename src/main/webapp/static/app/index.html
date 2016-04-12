@@ -9,6 +9,7 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -35,7 +36,15 @@
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
+
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="bower_components/fullcalendar/dist/gcal.js"></script>
+    <script src="bower_components/fullcalendar/dist/lang-all.js"></script>
+
+
+
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -52,8 +61,12 @@
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
 
       <!-- include: "type": "js", "files": "scripts/**/*.js" -->
+      
       <script src="scripts/app.js"></script>
       <script src="scripts/search/searchController.js"></script>
+      <script src="scripts/calendar/ui-bootstrap-tpls-0.13.0.js"></script>
+      <script src="scripts/calendar/calendar.js"></script>
+
       <!-- /include -->
     <!-- endbuild -->
     <!--<mainpage-search></mainpage-search>-->

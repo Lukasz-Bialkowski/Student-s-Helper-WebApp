@@ -1,0 +1,11 @@
+<srcipt src="../app.js"></srcipt>
+<srcipt src="../../bower_components/jquery/dist/jquery.min.js"></srcipt>
+<srcipt src="../../bower_components/angular/angular.min.js"></srcipt>
+<srcipt src="../../bower_components/fullcalendar/fullcalendar.js"></srcipt>
+<srcipt src="calendar.js"></srcipt>
+<link ref='stylesheet' href='../../bower_components/fullcalendar/dist/fullcalendar.css'>
+<body ng-app="mainApp">
+<div ng-controller='CalendarCtrl'>
+  <div class='calendar' ui-calendar='calOptions' ng-model='eventSources'></div>
+</div>
+</body>

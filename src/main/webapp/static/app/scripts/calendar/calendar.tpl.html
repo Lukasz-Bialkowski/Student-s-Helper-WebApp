@@ -1,11 +1,20 @@
 <div class="row">
   <div class="col-md-4">
     <p>Filters go in here</p>
+    <p><img src="scripts/calendar/b.png">ćwiczenia</p>
+    <p><img src="scripts/calendar/r.png">projekt</p>
+    <p><img src="scripts/calendar/o.png">wykład</p>
+    <p><img src="scripts/calendar/g.png">laboratorium</p>
+    <p><img src="scripts/calendar/p.png">seminarium</p>
   </div>
   <div class="col-md-8">
-    <h2>Calendar goes in here</h2>
-    <p>Szymon prezent dla ciebie</p>
-    <p>Wszystkie kursy w $scope.courses</p>
-    {{courses}}
+    <h2>{{courses[0].lecturer.title}} {{courses[0].lecturer.surname}} {{courses[0].lecturer.name}}</h2>
+<!--  <p>{{courses}}</p>
+    <P>{{courses[0].name}} <br>{{courses[0].lecturer.title}} {{courses[0].lecturer.surname}} {{courses[0].lecturer.name}}
+    <br><br>{{courses[0].address.budynek}} {{courses[0].address.sala}}</P>
+  <p>{{eventSources}}</p>-->
+
+      <div class='calendar' ui-calendar='calOptions' ng-model='eventSources' width='600px'></div>
+
   </div>
 </div>
