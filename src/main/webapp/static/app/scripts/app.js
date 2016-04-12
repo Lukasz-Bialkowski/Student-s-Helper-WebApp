@@ -221,7 +221,7 @@ var startOfWeek = moment().startOf('week').toDate();
        }
      }
    }
-   
+
    var events = [
 
      { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> D-1 312a', start: new Date(2016, 3, d, 13, 15), end: new Date(2016, 3, d, 15, 0), color: 'blue' },
