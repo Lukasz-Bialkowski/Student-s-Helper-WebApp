@@ -1,18 +1,64 @@
-<div class="row">
-  <div class="col-md-4">
-    <p>Filters go in here</p>
-    <p><img src="scripts/calendar/b.png">ćwiczenia</p>
-    <p><img src="scripts/calendar/r.png">projekt</p>
-    <p><img src="scripts/calendar/o.png">wykład</p>
-    <p><img src="scripts/calendar/g.png">laboratorium</p>
-    <p><img src="scripts/calendar/p.png">seminarium</p>
+<div class="row" ng-controller="CalendarCtrl as calendarCtrl">
+  <div class="col-md-4" >
+    <form style="margin-top:10%; margin-left: 5%" ng-show="calendarCtrl.showForm">
+      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('c')">
+        <div class="col-sm-10">
+          <div class="checkbox-inline">
+            <label class="col-sm-1"><input type="checkbox" id="c" class="checkboxSize" ng-click="calendarCtrl.changeStateOfType('c')" checked >
+              <img class="resize" src="scripts/calendar/b.png">
+            </label>
+            <label style="margin-left: 20%" for="c">Ćwiczenia</label>
+          </div>
+        </div>
+      </div>
+      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('p')">
+        <div class="col-sm-10">
+          <div class="checkbox-inline">
+            <label class="col-sm-1"><input type="checkbox" id="p" class="checkboxSize" ng-click="calendarCtrl.changeStateOfType('p')" checked>
+              <img class="resize" src="scripts/calendar/r.png" >
+            </label>
+            <label style="margin-left: 25%" for="p">Projekt</label>
+          </div>
+        </div>
+      </div>
+      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('w')">
+      <div class="col-sm-10">
+        <div class="checkbox-inline">
+          <label class="col-sm-1"><input type="checkbox" id="w" class="checkboxSize"  ng-click="calendarCtrl.changeStateOfType('w')" checked>
+            <img class="resize" src="scripts/calendar/o.png" >
+          </label>
+          <label style="margin-left: 25%" for="w">Wykład</label>
+        </div>
+      </div>
+    </div>
+      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('l')">
+        <div class="col-sm-10">
+          <div class="checkbox-inline">
+            <label class="col-sm-1"><input type="checkbox" id="l" class="checkboxSize" ng-click="calendarCtrl.changeStateOfType('l')" checked>
+              <img class="resize" src="scripts/calendar/g.png" >
+            </label>
+            <label style="margin-left: 19%" for="l">Laboratorium</label>
+          </div>
+        </div>
+      </div>
+      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('s')" >
+        <div class="col-sm-10">
+          <div class="checkbox-inline">
+            <label class="col-sm-1"><input type="checkbox" id="s" class="checkboxSize" ng-click="calendarCtrl.changeStateOfType('s')" checked>
+              <img class="resize" src="scripts/calendar/p.png" >
+            </label>
+            <label style="margin-left: 20%" for="s">Seminarium</label>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="col-md-8">
+  <div class="col-md-8" >
     <h2>{{courses[0].lecturer.title}} {{courses[0].lecturer.surname}} {{courses[0].lecturer.name}}</h2>
-<!--  <p>{{courses}}</p>
-    <P>{{courses[0].name}} <br>{{courses[0].lecturer.title}} {{courses[0].lecturer.surname}} {{courses[0].lecturer.name}}
-    <br><br>{{courses[0].address.budynek}} {{courses[0].address.sala}}</P>
-  <p>{{eventSources}}</p>-->
+<!--<p>{{courses}}</p>-->
+    <!--<p>{{courses[0].name}} <br>{{courses[0].lecturer.title}} {{courses[0].lecturer.surname}} {{courses[0].lecturer.name}}-->
+    <!--<br><br>{{courses[0].address.budynek}} {{courses[0].address.sala}}</p>-->
+  <!--<p>{{eventSources}}</p>-->
 
       <div class='calendar' ui-calendar='calOptions' ng-model='eventSources' width='600px'></div>
 
