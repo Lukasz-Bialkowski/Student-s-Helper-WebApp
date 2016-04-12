@@ -1,6 +1,7 @@
 package controller;
 
 import entity.Address;
+import entity.Lecturer;
 import entity.RemedialClass;
 import entity.RemedialInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import repository.LecturersRepository;
 import repository.RemedialClassesRepository;
 import services.ICSVParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,21 +43,26 @@ public class BuildingsController {
     @RequestMapping(value ="/lecturer/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getLecturerAddress(@PathVariable Long id)
     {
+        Lecturer lecturer = lecturersRepository.findOne(id);
+        List<RemedialClass> remedialList = new ArrayList<RemedialClass>();
+
+
         List<RemedialClass> allrc = remedialClassesRepository.findAll();
-        RemedialClass remedialClass = new RemedialClass();
 
         for(RemedialClass rc :allrc){
-            if(rc.getLecturer().getId().equals(id)){
-                remedialClass = rc;
+            if(rc.getLecturer().getName().equals(lecturer.getName())&&rc.getLecturer().getSurname().equals(lecturer.getSurname())){
+                remedialList.add(rc);
             }
         }
-        Address address = remedialClass.getAddress();
-
-        RemedialInfo remedialInfo = new RemedialInfo();
-        remedialInfo.setAddress(address);
-        remedialInfo.setRemedialClass(remedialClass);
-
-        return new ResponseEntity<RemedialInfo>(remedialInfo, HttpStatus.OK);
+        List<RemedialInfo> remedialInfoList = new ArrayList<RemedialInfo>();
+        for(RemedialClass remedialClass: remedialList) {
+            Address address = remedialClass.getAddress();
+            RemedialInfo remedialInfo = new RemedialInfo();
+            remedialInfo.setAddress(address);
+            remedialInfo.setRemedialClass(remedialClass);
+            remedialInfoList.add(remedialInfo);
+        }
+        return new ResponseEntity<List<RemedialInfo>>(remedialInfoList, HttpStatus.OK);
     }
 
 }

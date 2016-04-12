@@ -11,7 +11,8 @@
   .config(function($stateProvider, $urlRouterProvider) {
 
       $urlRouterProvider.otherwise('/mainsearch');
-      $stateProvider.state('mainsearch', {
+      $stateProvider
+        .state('mainsearch', {
           url : '/mainsearch',
           templateUrl : 'scripts/search/mainPageSearch.tmpl.html',
           controller : 'MainSearchCtrl'
@@ -73,6 +74,7 @@
 
            getRemedialInfo : {
                method : 'GET',
+             isArray:true,
                params : {
                    operation : 'lecturer'
                }
@@ -411,6 +413,7 @@ var startOfWeek = moment().startOf('week').toDate();
    $scope.currentRemedialInfo = {};
    var lat =0.0;
    var lng = 0.0;
+
    $scope.getLecturer = function(lecturerid) {
      lecturersSearchSrv.getLecturer({lecturerId : lecturerid}, function(response){
        $scope.currentLecturer = response;
@@ -421,12 +424,13 @@ var startOfWeek = moment().startOf('week').toDate();
    $scope.getRemedialInfo = function(lecturerid){
      buildingsSearchSrv.getRemedialInfo({lecturerId: lecturerid}, function(response){
        $scope.currentRemedialInfo = response;
-       lat = parseFloat($scope.currentRemedialInfo.address.width);
-       lng =  parseFloat($scope.currentRemedialInfo.address.length);
+       lat = parseFloat($scope.currentRemedialInfo[0].address.width);
+       lng =  parseFloat($scope.currentRemedialInfo[0].address.length);
        createMap(lat,lng);
      })
    };
    $scope.getRemedialInfo($scope.searchIndeks);
+
    function createMap(lati, lngi){
      $window.map = new google.maps.Map(document.getElementById('map'), {
        center: new google.maps.LatLng( lati, lngi),

@@ -1,8 +1,11 @@
 <div class="row">
   <div class="col-md-4">
     <p><b>Konsultacje</b><br>
-    {{currentRemedialInfo.address.budynek}} pok. {{currentRemedialInfo.address.sala}}<br><br>
-    {{currentRemedialInfo.remedialClass.dayOfWeek}} {{currentRemedialInfo.remedialClass.repManner}} {{currentRemedialInfo.remedialClass.startTime}}-{{currentRemedialInfo.remedialClass.endTime}}</br><br>
+    <div ng-repeat="remedial in currentRemedialInfo">
+    {{remedial.remedialClass.dayOfWeek}} {{remedial.remedialClass.repManner}} {{remedial.remedialClass.startTime}}-{{remedial.remedialClass.endTime}}<br>
+    {{remedial.address.budynek}} pok. {{remedial.address.sala}}
+    <br><br>
+    </div>
     <b>Informacje</b><br>
     {{currentLecturer.website}}<br>
     Tel. {{currentLecturer.telephone}}</p>
