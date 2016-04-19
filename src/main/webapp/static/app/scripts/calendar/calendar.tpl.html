@@ -1,50 +1,50 @@
-<div class="row" ng-controller="CalendarCtrl as calendarCtrl">
+<div class="row" >
   <div class="col-md-4" >
-    <form style="margin-top:10%; margin-left: 5%" ng-show="calendarCtrl.showForm">
-      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('c')">
+    <form style="margin-top:10%; margin-left: 5%" ng-show="showForm">
+      <div class = "form-group row" ng-show="shouldShowCheckbox('c')">
         <div class="col-sm-10">
           <div class="checkbox-inline">
-            <label class="col-sm-1"><input type="checkbox" id="c" class="checkboxSize" ng-click="calendarCtrl.changeStateOfType('c')" checked >
+            <label class="col-sm-1"><input type="checkbox" id="c" class="checkboxSize" ng-click="changeStateOfType('c')" checked >
               <img class="resize" src="scripts/calendar/b.png">
             </label>
             <label style="margin-left: 20%" for="c">Ćwiczenia</label>
           </div>
         </div>
       </div>
-      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('p')">
+      <div class = "form-group row" ng-show="shouldShowCheckbox('p')">
         <div class="col-sm-10">
           <div class="checkbox-inline">
-            <label class="col-sm-1"><input type="checkbox" id="p" class="checkboxSize" ng-click="calendarCtrl.changeStateOfType('p')" checked>
+            <label class="col-sm-1"><input type="checkbox" id="p" class="checkboxSize" ng-click="changeStateOfType('p')" checked>
               <img class="resize" src="scripts/calendar/r.png" >
             </label>
             <label style="margin-left: 25%" for="p">Projekt</label>
           </div>
         </div>
       </div>
-      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('w')">
+      <div class = "form-group row" ng-show="shouldShowCheckbox('w')">
         <div class="col-sm-10">
           <div class="checkbox-inline">
-            <label class="col-sm-1"><input type="checkbox" id="w" class="checkboxSize"  ng-click="calendarCtrl.changeStateOfType('w')" checked>
+            <label class="col-sm-1"><input type="checkbox" id="w" class="checkboxSize"  ng-click="changeStateOfType('w')" checked>
               <img class="resize" src="scripts/calendar/o.png" >
             </label>
             <label style="margin-left: 25%" for="w">Wykład</label>
           </div>
         </div>
       </div>
-      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('l')">
+      <div class = "form-group row" ng-show="shouldShowCheckbox('l')">
         <div class="col-sm-10">
           <div class="checkbox-inline">
-            <label class="col-sm-1"><input type="checkbox" id="l" class="checkboxSize" ng-click="calendarCtrl.changeStateOfType('l')" checked>
+            <label class="col-sm-1"><input type="checkbox" id="l" class="checkboxSize" ng-click="changeStateOfType('l')" checked>
               <img class="resize" src="scripts/calendar/g.png" >
             </label>
             <label style="margin-left: 19%" for="l">Laboratorium</label>
           </div>
         </div>
       </div>
-      <div class = "form-group row" ng-show="calendarCtrl.shouldShowCheckbox('s')" >
+      <div class = "form-group row" ng-show="shouldShowCheckbox('s')" >
         <div class="col-sm-10">
           <div class="checkbox-inline">
-            <label class="col-sm-1"><input type="checkbox" id="s" class="checkboxSize" ng-click="calendarCtrl.changeStateOfType('s')" checked>
+            <label class="col-sm-1"><input type="checkbox" id="s" class="checkboxSize" ng-click="changeStateOfType('s')" checked>
               <img class="resize" src="scripts/calendar/p.png" >
             </label>
             <label style="margin-left: 20%" for="s">Seminarium</label>
@@ -60,7 +60,7 @@
     <!--<p>{{courses[0].name}} <br>{{courses[0].lecturer.title}} {{courses[0].lecturer.surname}} {{courses[0].lecturer.name}}-->
     <!--<br><br>{{courses[0].address.budynek}} {{courses[0].address.sala}}</p>-->
     <!--<p>{{eventSources}}</p>-->
-    <div id="calendarPwr" ng-if="eventSources.length" class='calendar' ui-calendar='calOptions' ng-model='eventSources' width='600px'></div>
+    <div id="calendarPwr" class='calendar' ui-calendar='calOptions' width='600px'></div>
 
   </div>
 </div>

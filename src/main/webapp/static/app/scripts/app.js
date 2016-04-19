@@ -178,16 +178,13 @@
 
        $scope.getLecturer($scope.searchIndeks);
 
-}]).controller('CalendarCtrl', function ($scope, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv, ngDialog) {
+}]).controller('CalendarCtrl', function ($scope, $rootScope,lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv, ngDialog) {
    var calendarCtrl = this;
    calendarCtrl.backupOfCourses = [];
-   calendarCtrl.showForm = false;
+   $scope.showForm = false;
    $scope.countCourses = 0;
    $scope.eventSources = [];
-   var startOfWeek = moment().startOf('week').toDate();
-   var d = startOfWeek.getDate()+1;
-   var e = startOfWeek.getDate()+6;
-
+   $rootScope.shouldLoadDataForCalendar = true;
 
    function returnHourOrMinute(time, i){
      var v = time.split(":");
@@ -224,7 +221,6 @@
      }
    }
 
-
 // COURSES
 
    $scope.getAllCourses = function() {
@@ -235,11 +231,15 @@
        coursesSearchSrv.coursesForLecturer({courseId : lecturerid}, function(response){
 
          $scope.courses = response;
-         calendarCtrl.backupOfCourses = response;
-         calendarCtrl.getTypesOfCourses();
-         calendarCtrl.showForm = true;
          $scope.countCourses = $scope.courses.length;
-         $scope.setupCalendar();
+
+         calendarCtrl.backupOfCourses = response;
+
+         calendarCtrl.getTypesOfCourses();
+         $scope.showForm = true;
+
+         $scope.setupCalendar()
+         $('#calendarPwr').fullCalendar('addEventSource', $scope.eventSources);
        })
    };
 
@@ -247,14 +247,13 @@
      var startOfWeek = moment().startOf('week').toDate();
      var d = startOfWeek.getDate();
      var m = new Date().getMonth();
-     var newEvent = new Object({
+     return new Object({
        "id" : data.id,
        "title":data.name+"\n "+data.lecturer.title+" "+data.lecturer.name+" "+data.lecturer.surname+"\n "+data.address.budynek+" "+data.address.sala,
        "start":new Date(2016, m, (d+calendarCtrl.getNumberOfDay(data.dayOfWeek)), returnHourOrMinute(data.startTime, 0), returnHourOrMinute(data.startTime, 1)),
        "end":new Date(2016, m, (d+calendarCtrl.getNumberOfDay(data.dayOfWeek)), returnHourOrMinute(data.endTime, 0), returnHourOrMinute(data.endTime, 1)),
        "color":getColor(data.type),
      });
-     return newEvent;
    };
 
    $scope.setupCalendar = function () {
@@ -263,7 +262,8 @@
        var c = calendarCtrl.getEventSource($scope.courses[i]);
        temparray.push(c);
      }
-     $scope.eventSources = [temparray];
+     $scope.eventSources = temparray;
+
    };
 
    $scope.getAllCoursesForLecturer($scope.searchIndeks);
@@ -288,7 +288,7 @@
      }
    };
 
-   calendarCtrl.changeStateOfType = function(type) {
+   $scope.changeStateOfType = function(type) {
      var index = calendarCtrl.types.indexOf(type);
      if( index != -1) {
        calendarCtrl.types.splice(index,1);
@@ -299,7 +299,7 @@
    };
 
    calendarCtrl.changeScopeOfLecturers = function(){
-     $('#calendarPwr').fullCalendar( 'removeEvents');
+     $('#calendarPwr').fullCalendar( 'removeEventSource' , $scope.eventSources);
      var tempArray = [];
      var eventArray = [];
      for (var i = 0; i < calendarCtrl.types.length; i++) {
@@ -311,12 +311,13 @@
          }
        }
      }
-     $('#calendarPwr').fullCalendar('addEventSource',eventArray);
+     $scope.eventSources = eventArray;
+     $('#calendarPwr').fullCalendar('addEventSource', $scope.eventSources);
      $scope.courses = tempArray;
      $scope.countCourses = $scope.courses.length;
    };
 
-   calendarCtrl.shouldShowCheckbox = function(value) {
+   $scope.shouldShowCheckbox = function(value) {
      return calendarCtrl.avalaibleTypes.indexOf(value) != -1;
    };
 
