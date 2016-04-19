@@ -179,8 +179,12 @@
        $scope.getLecturer($scope.searchIndeks);
 
 }]).controller('CalendarCtrl', function ($scope, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv, ngDialog) {
-var startOfWeek = moment().startOf('week').toDate();
-   //var d = firstday.getDate();
+   var calendarCtrl = this;
+   calendarCtrl.backupOfCourses = [];
+   calendarCtrl.showForm = false;
+   $scope.countCourses = 0;
+   $scope.eventSources = [];
+   var startOfWeek = moment().startOf('week').toDate();
    var d = startOfWeek.getDate()+1;
    var e = startOfWeek.getDate()+6;
 
@@ -199,86 +203,62 @@ var startOfWeek = moment().startOf('week').toDate();
        case "L","l":
        {
          return "green";
-         break;
        }
        case "W","w":
        {
          return "orange";
-         break;
        }
        case "P","p":
        {
          return "red";
-         break;
        }
        case "C","c":
        {
          return "blue";
-         break;
        }
        case "S","s":
        {
          return "purple";
-         break;
        }
      }
    }
 
-   var events = [
-
-     { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> D-1 312a', start: new Date(2016, 3, d, 13, 15), end: new Date(2016, 3, d, 15, 0), color: 'blue' },
-     { title: 'Wstęp do programowania <br> dr inż. Krzysztof Brzostowski <br> B-4 409a', start: new Date(2016, 3, d, 15, 15), end: new Date(2016, 3, d, 16, 55), color: 'orange' },
-     { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d, 17, 5), end: new Date(2016, 3, d, 18, 55), color: 'blue' },
-
-     { title: 'Zespołowe przedsięwzięcie inżynierskie <br> dr inż. Krzysztof Brzostowski <br> B-1 408', start: new Date(2016, 3, d + 2, 7, 30), end: new Date(2016, 3, d + 2, 11, 0), color: 'red' },
-     { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> C-13 0.32', start: new Date(2016, 3, d + 2, 11, 15), end: new Date(2016, 3, d + 2, 13, 0), color: 'blue' },
-     { title: 'Modele systemów dynamicznych <br> dr inż. Krzysztof Brzostowski <br> D-1 311c', start: new Date(2016, 3, d + 2, 13, 15), end: new Date(2016, 3, d + 2, 15, 0), color: 'blue' },
-
-     { title: 'Identyfikacja systemów <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d + 3, 9, 15), end: new Date(2016, 3, d + 3, 11, 0), color: 'green' },
-     { title: 'Identyfikacja systemów <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d + 3, 11, 15), end: new Date(2016, 3, d + 3, 13, 0), color: 'green' },
-     { title: 'Wstęp do programowania <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d + 3, 13, 15), end: new Date(2016, 3, d + 3, 15, 0), color: 'green' },
-     { title: 'Wstęp do programowania <br> dr inż. Krzysztof Brzostowski <br> B-4 444', start: new Date(2016, 3, d + 3, 15, 15), end: new Date(2016, 3, d + 3, 16, 55), color: 'green' },
-
-     { title: 'Identyfikacja systemów <br> dr inż. Krzysztof Brzostowski <br> D-2 333b', start: new Date(2016, 3, d + 4, 11,15), end: new Date(2016, 3, d + 4, 13, 0), color: 'green' },
-     { title: 'Identyfikacja systemów <br> dr inż. Krzysztof Brzostowski <br> D-2 127c', start: new Date(2016, 3, d + 4, 13, 15), end: new Date(2016, 3, d + 4, 15, 0), color: 'green' }
-  ];
-
 
 // COURSES
-   var calendarCtrl = this;
-   calendarCtrl.backupOfCourses = [];
-   calendarCtrl.showForm = false;
-   $scope.countCourses = 0;
 
    $scope.getAllCourses = function() {
        if($scope.courses.length==0){coursesSearchSrv.getAllCourses({}, function(response){$scope.courses = response;})}
    };
 
-   var c;
    $scope.getAllCoursesForLecturer = function(lecturerid){
        coursesSearchSrv.coursesForLecturer({courseId : lecturerid}, function(response){
 
-          $scope.courses = response;
+         $scope.courses = response;
          calendarCtrl.backupOfCourses = response;
          calendarCtrl.getTypesOfCourses();
          calendarCtrl.showForm = true;
          $scope.countCourses = $scope.courses.length;
-
-         var startOfWeek = moment().startOf('week').toDate();
-         //var d = firstday.getDate();
-         var d = startOfWeek.getDate();
-         var m = new Date().getMonth();
-
-         for(var i = 0; i < $scope.countCourses; i++){
-           c = new Object({"title":$scope.courses[i].name+"<br> "+$scope.courses[i].lecturer.title+" "+$scope.courses[i].lecturer.name+" "+$scope.courses[i].lecturer.surname+"<br> "+$scope.courses[i].address.budynek+" "+$scope.courses[i].address.sala, "start":new Date(2016, m, (parseInt(d)+parseInt($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].startTime, 0), returnHourOrMinute($scope.courses[i].startTime, 1)),
-           "end":new Date(2016, m, (parseInt(d)+parseInt($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].endTime, 0), returnHourOrMinute($scope.courses[i].endTime, 1)),
-           "color":getColor($scope.courses[i].type),"_id":i});
-          }
-         console.log(events);
-         console.log([c]);
-         $scope.result = [[c]];
+         $scope.setupCalendar();
        })
    };
+
+   $scope.setupCalendar = function () {
+     var startOfWeek = moment().startOf('week').toDate();
+     var d = startOfWeek.getDate();
+     var m = new Date().getMonth();
+
+     var temparray=[];
+     for(var i = 0; i < $scope.countCourses; i++){
+       var c = new Object({"title":$scope.courses[i].name+"\n "+$scope.courses[i].lecturer.title+" "+$scope.courses[i].lecturer.name+" "+$scope.courses[i].lecturer.surname+"\n "+$scope.courses[i].address.budynek+" "+$scope.courses[i].address.sala, "start":new Date(2016, m, (d+calendarCtrl.getNumberOfDay($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].startTime, 0), returnHourOrMinute($scope.courses[i].startTime, 1)),
+         "end":new Date(2016, m, (d+calendarCtrl.getNumberOfDay($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].endTime, 0), returnHourOrMinute($scope.courses[i].endTime, 1)),
+         "color":getColor($scope.courses[i].type),"_id":i});
+       temparray.push(c);
+     }
+     $scope.eventSources = [temparray];
+     var element = document.getElementById('calendarPwr');
+     element.fullCalendar.refetchEvents();
+     //window.location.reload(false);
+   }
 
    $scope.getAllCoursesForLecturer($scope.searchIndeks);
 
@@ -323,11 +303,17 @@ var startOfWeek = moment().startOf('week').toDate();
      }
      $scope.courses = tempArray;
      $scope.countCourses = $scope.courses.length;
+     $scope.setupCalendar();
    };
 
    calendarCtrl.shouldShowCheckbox = function(value) {
      return calendarCtrl.avalaibleTypes.indexOf(value) != -1;
    };
+
+   calendarCtrl.getNumberOfDay = function (value) {
+     var dict = {"Poniedziałek" : 1, "Wtorek" : 2, "Środa": 3, "Czwartek": 4, "Piątek":5, "Sobota":6, "Niedziela":7 };
+     return dict[value];
+   }
 
 // BUILDINGS
    $scope.getAllBuildings = function() {
