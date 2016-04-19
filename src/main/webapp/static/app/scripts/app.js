@@ -199,24 +199,25 @@
    }
 
    function getColor(c){
-     switch(c){
-       case "L","l":
+     var color = c.toLowerCase();
+     switch(color){
+       case "l":
        {
          return "green";
        }
-       case "W","w":
+       case "w":
        {
          return "orange";
        }
-       case "P","p":
+       case "p":
        {
          return "red";
        }
-       case "C","c":
+       case "c":
        {
          return "blue";
        }
-       case "S","s":
+       case "s":
        {
          return "purple";
        }
@@ -242,23 +243,28 @@
        })
    };
 
-   $scope.setupCalendar = function () {
+   calendarCtrl.getEventSource = function(data){
      var startOfWeek = moment().startOf('week').toDate();
      var d = startOfWeek.getDate();
      var m = new Date().getMonth();
+     var newEvent = new Object({
+       "id" : data.id,
+       "title":data.name+"\n "+data.lecturer.title+" "+data.lecturer.name+" "+data.lecturer.surname+"\n "+data.address.budynek+" "+data.address.sala,
+       "start":new Date(2016, m, (d+calendarCtrl.getNumberOfDay(data.dayOfWeek)), returnHourOrMinute(data.startTime, 0), returnHourOrMinute(data.startTime, 1)),
+       "end":new Date(2016, m, (d+calendarCtrl.getNumberOfDay(data.dayOfWeek)), returnHourOrMinute(data.endTime, 0), returnHourOrMinute(data.endTime, 1)),
+       "color":getColor(data.type),
+     });
+     return newEvent;
+   };
 
+   $scope.setupCalendar = function () {
      var temparray=[];
      for(var i = 0; i < $scope.countCourses; i++){
-       var c = new Object({"title":$scope.courses[i].name+"\n "+$scope.courses[i].lecturer.title+" "+$scope.courses[i].lecturer.name+" "+$scope.courses[i].lecturer.surname+"\n "+$scope.courses[i].address.budynek+" "+$scope.courses[i].address.sala, "start":new Date(2016, m, (d+calendarCtrl.getNumberOfDay($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].startTime, 0), returnHourOrMinute($scope.courses[i].startTime, 1)),
-         "end":new Date(2016, m, (d+calendarCtrl.getNumberOfDay($scope.courses[i].dayOfWeek)), returnHourOrMinute($scope.courses[i].endTime, 0), returnHourOrMinute($scope.courses[i].endTime, 1)),
-         "color":getColor($scope.courses[i].type),"_id":i});
+       var c = calendarCtrl.getEventSource($scope.courses[i]);
        temparray.push(c);
      }
      $scope.eventSources = [temparray];
-     var element = document.getElementById('calendarPwr');
-     element.fullCalendar.refetchEvents();
-     //window.location.reload(false);
-   }
+   };
 
    $scope.getAllCoursesForLecturer($scope.searchIndeks);
 
@@ -293,17 +299,21 @@
    };
 
    calendarCtrl.changeScopeOfLecturers = function(){
+     $('#calendarPwr').fullCalendar( 'removeEvents');
      var tempArray = [];
+     var eventArray = [];
      for (var i = 0; i < calendarCtrl.types.length; i++) {
        for(var j = 0; j < calendarCtrl.backupOfCourses.length ; j++) {
          if (calendarCtrl.backupOfCourses[j].type.toLowerCase() == calendarCtrl.types[i]) {
            tempArray.push(calendarCtrl.backupOfCourses[j]);
+           var newEvent = calendarCtrl.getEventSource(calendarCtrl.backupOfCourses[j]);
+           eventArray.push(newEvent);
          }
        }
      }
+     $('#calendarPwr').fullCalendar('addEventSource',eventArray);
      $scope.courses = tempArray;
      $scope.countCourses = $scope.courses.length;
-     $scope.setupCalendar();
    };
 
    calendarCtrl.shouldShowCheckbox = function(value) {
@@ -313,7 +323,7 @@
    calendarCtrl.getNumberOfDay = function (value) {
      var dict = {"Poniedziałek" : 1, "Wtorek" : 2, "Środa": 3, "Czwartek": 4, "Piątek":5, "Sobota":6, "Niedziela":7 };
      return dict[value];
-   }
+   };
 
 // BUILDINGS
    $scope.getAllBuildings = function() {
