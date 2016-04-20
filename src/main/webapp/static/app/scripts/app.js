@@ -333,7 +333,7 @@
        })
    };
 
-   $scope.calOptions = {
+   $('#calendarPwr').fullCalendar({
      header: {
        left: 'null',
        center: "Kalendarzyk",
@@ -346,8 +346,8 @@
      firstDay: 1,
      allDay: false,
      lang: 'pl',
-     height: 725
-   };
+     height: 725,
+   });
 
    //POPOVER
 
