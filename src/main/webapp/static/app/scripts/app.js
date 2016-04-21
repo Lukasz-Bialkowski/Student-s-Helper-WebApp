@@ -330,7 +330,7 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
   $('#calendarPwr').fullCalendar({
     header: {
       left: 'null',
-      center: "Kalendarzyk",
+      center: "",
       right: 'null'
     },
     defaultView: 'agendaWeek',
@@ -338,11 +338,25 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
     minTime: '07:00:00',
     maxTime: '21:00:00',
     firstDay: 1,
-    allDay: false,
+    allDaySlot: false,
     lang: 'pl',
-    height: 725,
-    eventClick: onEventClick
+    columnFormat : 'dddd',
+    height: 700,
+    eventClick: onEventClick,
+    eventMouseover: onMouseOverEvent,
+    eventMouseout: onMouseOutEvent
+
   });
+
+  function onMouseOverEvent(calEvent,jsEvent) {
+    var e = $(this);
+    e.animate({ height: '+=40px', zIndex : 3 }, 100 );
+  }
+
+  function onMouseOutEvent(calEvent,jsEvent){
+    var e = $(this);
+    e.animate({ height: '-=40px' , zIndex : 1}, 100 );
+  }
 
   //POPOVER
 
