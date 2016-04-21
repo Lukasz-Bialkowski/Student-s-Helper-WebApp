@@ -346,10 +346,33 @@
      firstDay: 1,
      allDay: false,
      lang: 'pl',
-     height: 725
+     height: 725,
+     eventClick: onEventClick
    });
 
    //POPOVER
+
+   function onEventClick(calEvent, jsEvent, view){
+     var event = getEventById(calEvent.id);
+     if (event != null) {
+       var buildingName = event.address.budynek + " " + event.address.sala;
+        $scope.openPopover(event.name, buildingName, event.address.width, event.address.length);
+     }else {
+       ngDialog.open({
+         template: '<p>Coś poszło nie tak, proszę odśwież stronę</p>',
+         plain: true,
+         className: 'ngdialog-theme-plain'
+       });
+
+     }
+   }
+
+   function getEventById(id) {
+     for(var i = 0; i< $scope.courses.length; i++)
+       if ($scope.courses[i].id == id)
+         return $scope.courses[i];
+     return null;
+   }
 
    $scope.openPopover = function(courseName, building ,lat, lng) {
      ngDialog.open({
