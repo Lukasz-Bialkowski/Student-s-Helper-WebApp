@@ -342,6 +342,7 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
     lang: 'pl',
     columnFormat : 'dddd',
     height: 700,
+    slotEventOverlap: false,
     eventClick: onEventClick,
     eventMouseover: onMouseOverEvent,
     eventMouseout: onMouseOutEvent
@@ -350,12 +351,12 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
 
   function onMouseOverEvent(calEvent,jsEvent) {
     var e = $(this);
-    e.animate({ height: '+=40px', zIndex : 3 }, 100 );
+    e.animate({ width: "+=50px", height: '+=50px', zIndex : 3 }, 100 );
   }
 
   function onMouseOutEvent(calEvent,jsEvent){
     var e = $(this);
-    e.animate({ height: '-=40px' , zIndex : 1}, 100 );
+    e.animate({ width: "-=50px", height: '-=50px' , zIndex : 1}, 100 );
   }
 
   //POPOVER
