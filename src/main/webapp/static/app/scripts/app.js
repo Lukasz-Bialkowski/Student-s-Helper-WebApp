@@ -240,13 +240,16 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
   calendarCtrl.getEventSource = function(data){
     var startOfWeek = moment().startOf('week').toDate();
     var d = startOfWeek.getDate();
+    if (startOfWeek.getDay() == 0) {
+      d -= 7;
+    }
     var m = new Date().getMonth();
     return new Object({
       "id" : data.id,
       "title":data.name+"\n "+data.lecturer.title+" "+data.lecturer.name+" "+data.lecturer.surname+"\n "+data.address.budynek+" "+data.address.sala,
       "start":new Date(2016, m, (d+calendarCtrl.getNumberOfDay(data.dayOfWeek)), returnHourOrMinute(data.startTime, 0), returnHourOrMinute(data.startTime, 1)),
       "end":new Date(2016, m, (d+calendarCtrl.getNumberOfDay(data.dayOfWeek)), returnHourOrMinute(data.endTime, 0), returnHourOrMinute(data.endTime, 1)),
-      "color":getColor(data.type),
+      "color":getColor(data.type)
     });
   };
 
