@@ -240,7 +240,7 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
   calendarCtrl.getEventSource = function(data){
     var startOfWeek = moment().startOf('week').toDate();
     var d = startOfWeek.getDate();
-    if (startOfWeek.getDay() == 0) {
+    if (new Date().getDay() == 0) {
       d -= 7;
     }
     var m = new Date().getMonth();
@@ -354,12 +354,12 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
 
   function onMouseOverEvent(calEvent,jsEvent) {
     var e = $(this);
-    e.animate({ width: "+=50px", height: '+=50px', zIndex : 3 }, 100 );
+    e.animate({ width: "+=50px", height: '+=50px', zIndex : 100 }, 100 );
   }
 
   function onMouseOutEvent(calEvent,jsEvent){
     var e = $(this);
-    e.animate({ width: "-=50px", height: '-=50px' , zIndex : 1}, 100 );
+    e.animate({ width: "-=50px", height: '-=50px' , zIndex : -1}, 100 );
   }
 
   //POPOVER
