@@ -1,5 +1,10 @@
 <div class="row">
-  <div class="col-md-4">
+  <div ng-if="!currentRemedialInfo.length">
+    <div class="alert alert-warning">
+      <strong>Uwaga!</strong> Brak danych o konsultacjach prowadzącego.
+    </div>
+  </div>
+  <div ng-if="currentRemedialInfo.length" class="col-md-4">
     <p><b>Konsultacje</b><br>
     <div ng-repeat="remedial in currentRemedialInfo">
     {{remedial.remedialClass.dayOfWeek}} {{remedial.remedialClass.repManner}} {{remedial.remedialClass.startTime}}-{{remedial.remedialClass.endTime}}<br>

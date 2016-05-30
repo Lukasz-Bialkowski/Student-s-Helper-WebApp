@@ -98,7 +98,7 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
 
     if($scope.searchIndeks != -1) {
       $scope.didPerformFirstSearch = true;
-      $state.go("navbar", {lecturerindex : $scope.lectur.id});
+      $state.go("navbar.calendar", {lecturerindex : $scope.lectur.id});
     } else {
       console.info("errror")
     }
@@ -126,7 +126,7 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
     })
   };
 
-}]).controller('NavbarCtrl',['$scope', 'coursesSearchSrv','buildingsSearchSrv','lecturersSearchSrv','$stateParams', function ($scope, coursesSearchSrv, buildingsSearchSrv,lecturersSearchSrv,$stateParams) {
+}]).controller('NavbarCtrl',['$scope', 'coursesSearchSrv','buildingsSearchSrv','lecturersSearchSrv','$stateParams','$state', function ($scope, coursesSearchSrv, buildingsSearchSrv,lecturersSearchSrv,$stateParams,$state) {
 
   $scope.buildings = [];
   $scope.courses = [];
@@ -148,6 +148,7 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
     } else {
       console.info("errror")
     }
+    $state.go("navbar.calendar", {lecturerindex : $scope.searchIndeks});
   };
 
   // LECTURER
@@ -422,7 +423,7 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
   };
 
 }).controller('ContactCtrl',function ($scope,$window, lecturersSearchSrv, coursesSearchSrv, buildingsSearchSrv) {
-  $scope.currentRemedialInfo = {};
+  $scope.currentRemedialInfo = [];
   var lat =0.0;
   var lng = 0.0;
 
@@ -437,9 +438,11 @@ angular.module('mainApp', ['ngResource','ui.router','mgcrea.ngStrap.typeahead','
   $scope.getRemedialInfo = function(lecturerid){
     buildingsSearchSrv.getRemedialInfo({lecturerId: lecturerid}, function(response){
       $scope.currentRemedialInfo = response;
-      lat = parseFloat($scope.currentRemedialInfo[0].address.width);
-      lng =  parseFloat($scope.currentRemedialInfo[0].address.length);
-      createMap($window,lat,lng);
+      if($scope.currentRemedialInfo.length){
+            lat = parseFloat($scope.currentRemedialInfo[0].address.width);
+            lng =  parseFloat($scope.currentRemedialInfo[0].address.length);
+            createMap($window,lat,lng);
+      }
     })
   };
   $scope.getRemedialInfo($scope.searchIndeks);
